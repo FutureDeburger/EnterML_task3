@@ -1,5 +1,5 @@
 import numpy as np
-from computeCost import computeCost
+from part1.computeCost import computeCost
 
 def gradientDescent(X, y, theta, alpha, num_iters):
     """
@@ -18,9 +18,12 @@ def gradientDescent(X, y, theta, alpha, num_iters):
         # Инструкция: выполнить градиентный спуск для num_iters итераций 
         # с целью вычисления вектора параметров theta, минимизирующего 
         # стоимостную функцию
-        
-        
-        
+
+        predictions = np.dot(X, theta)
+        errors = predictions - y
+        gradient = (1 / m) * np.dot(X.T, errors)
+        theta = theta - alpha * gradient
+
         # ============================================================
         
         J_history.append(computeCost(X, y, theta)) # сохранение значений стоимостной функции

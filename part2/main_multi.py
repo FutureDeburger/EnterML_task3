@@ -4,10 +4,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from plotData import plotData
 from featureNormalize import featureNormalize
-from computeCost import computeCost
-from gradientDescent import gradientDescent
+from part1.computeCost import computeCost
+from part1.gradientDescent import gradientDescent
 from normalEqn import normalEqn
 
 # =================== Часть 1. Загрузка данных ===================
@@ -50,7 +49,7 @@ print(theta)
 # Визуализация процесса сходимости
 plt.figure()
 plt.plot(np.arange(len(J_history)) + 1, J_history, '-b', linewidth = 2)
-plt.xlabel('Число итераций');
+plt.xlabel('Число итераций')
 plt.ylabel('Значение стоимостной функции')
 plt.grid()
 plt.show()
@@ -58,6 +57,29 @@ plt.show()
 # Предсказание стоимости жилья площадью 1650 квадратных футов и 3 комнат
 predict = np.dot(np.array([[1, (1650 - mu[0]) / sigma[0], (3 - mu[1]) / sigma[1]]]), theta)
 print('Для площади 1650 квадратных футов и 3 комнат стоимость жилья = ${:.7f}'.format(predict[0, 0]))
+
+# =================== Исследование влияния числа итераций при фиксированном α ===================
+print('Исследование влияния числа итераций при α=0.1')
+
+alpha_fixed = 0.1
+iterations_list = [10, 50, 100, 200]
+colors = ['r', 'g', 'b', 'm']
+linestyles = ['-', '--', '-.', ':']
+plt.figure(figsize=(10, 6))
+
+for i, iter_count in enumerate(iterations_list):
+    theta_test = np.zeros([3, 1])
+    theta_test, J_hist = gradientDescent(X, y, theta_test, alpha_fixed, iter_count)
+    plt.plot(np.arange(1, len(J_hist) + 1), J_hist, color=colors[i], linestyle=linestyles[i], linewidth=2, label=f'{iter_count} итераций')
+
+plt.xlabel('Число итераций')
+plt.ylabel('Значение стоимостной функции J(θ)')
+plt.title(f'Влияние числа итераций при α={alpha_fixed}')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
 
 # ================= Часть 4. Нормальные уравнения ================
 
@@ -69,7 +91,7 @@ m = data.shape[0]
 X = np.array(data[:, 0:2]); X = np.concatenate((np.ones((m, 1)), X), axis = 1)
 y = np.array(data[:, 2:3])
 
-# Вычисление параметров модели с использование нормальных уравнений
+# Вычисление параметров модели с использованием нормальных уравнений
 theta = normalEqn(X, y)
 print('Найденные параметры модели: ')
 print(theta)
