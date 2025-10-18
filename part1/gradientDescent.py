@@ -19,10 +19,19 @@ def gradientDescent(X, y, theta, alpha, num_iters):
         # с целью вычисления вектора параметров theta, минимизирующего 
         # стоимостную функцию
 
-        predictions = np.dot(X, theta)
+        # predictions = np.dot(X, theta)
+        # errors = predictions - y
+        # gradient = (1 / m) * np.dot(X.T, errors)
+        # theta = theta - alpha * gradient
+
+        predictions = X.dot(theta)
         errors = predictions - y
-        gradient = (1 / m) * np.dot(X.T, errors)
-        theta = theta - alpha * gradient
+
+        grad_theta0 = (1.0 / m) * np.sum(errors)
+        grad_theta1 = (1.0 / m) * np.sum(errors * X[:, 1:2])  # сохраняем размерность (m × 1)
+
+        theta[0] = theta[0] - alpha * grad_theta0
+        theta[1] = theta[1] - alpha * grad_theta1
 
         # ============================================================
         

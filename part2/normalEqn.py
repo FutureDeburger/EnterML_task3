@@ -12,7 +12,6 @@ def normalEqn(X, y):
     # Инструкция: выполнить вычисление параметров модели для линейной 
     # регрессии с использованием нормальных уравнений
 
-    # Формула нормальных уравнений: θ = (X^T * X)^(-1) * X^T * y
     X_transpose = X.T
     theta = np.linalg.inv(X_transpose.dot(X)).dot(X_transpose).dot(y)
     
